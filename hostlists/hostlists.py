@@ -31,6 +31,7 @@ import os
 import sys
 import imp
 import json
+import logging
 import re
 
 # Global plugin cache so we don't constantly reload the plugin modules
@@ -48,19 +49,27 @@ def _get_plugins():
     """ Find all the hostlists plugins """
     plugins = global_plugins
     pluginlist = []
-    plugin_path = ['~/.hostlists','~/lib/hostlists','/usr/lib/hostlists', '/home/y/lib/hostlists'] + sys.path
+    plugin_path = [
+        '~/.hostlists', '~/lib/hostlists', '/usr/lib/hostlists',
+        '/home/y/lib/hostlists'
+    ] + sys.path
     for directory in plugin_path:
         if os.path.isdir(os.path.join(directory, 'plugins')):
             templist = os.listdir(os.path.join(directory, 'plugins'))
             for item in templist:
-                pluginlist.append(os.path.join(os.path.join(directory, 'plugins'), item))
+                pluginlist.append(
+                    os.path.join(os.path.join(directory, 'plugins'), item))
     pluginlist.sort()
     # Create a dict mapping the plugin name to the plugin method
     for item in pluginlist:
         if item.endswith('.py'):
             try:
-                mod = imp.load_module('hostlists_plugins_%s' % os.path.basename(item[:-3]), open(item), item,
-                                      ('.py', 'r', imp.PY_SOURCE))
+                mod = imp.load_module(
+                    'hostlists_plugins_%s' % os.path.basename(item[:-3]),
+                    open(item),
+                    item,
+                    ('.py', 'r', imp.PY_SOURCE)
+                )
                 names = mod.name()
                 if isinstance(names,(str,unicode)):
                     names = [names]
@@ -69,7 +78,8 @@ def _get_plugins():
                         plugins[name.lower()] = mod
             except:
                 # Error in module import, probably a plugin bug
-                pass
+                logging.debug(
+                    "Plugin import failed %s: %s" % (item,sys.exc_info()))
     return plugins
 
 
@@ -148,9 +158,11 @@ def expand_item(range_list, onepass = False):
                 # Call the plugin
                 item = None
                 if multiple_names(plugins[plugin]):
-                    newlist += plugins[plugin].expand(':'.join(temp[1:]).strip(':'), name = plugin)
+                    newlist += plugins[plugin].expand(
+                        ':'.join(temp[1:]).strip(':'), name = plugin)
                 else:
-                    newlist += plugins[plugin].expand(':'.join(temp[1:]).strip(':'))
+                    newlist += plugins[plugin].expand(
+                        ':'.join(temp[1:]).strip(':'))
                 found_plugin = True
             else:
                 print >> sys.stderr, 'plugin', plugin, 'not found', plugins.keys()
@@ -160,10 +172,11 @@ def expand_item(range_list, onepass = False):
             newlist += plugins['range'].expand(temp[0])
         if item:
             newlist.append(item)
-        # Recurse back through ourselves incase a plugin returns a value that needs to be parsed
-    # by another plugin.  For example a dns resource that has an address that points to a
-    # load balancer vip that may container a number of hosts that need to be looked up via
-    # the load_balancer plugin.
+        # Recurse back through ourselves incase a plugin returns a value that
+        # needs to be parsed
+    # by another plugin.  For example a dns resource that has an address that
+    # points to a load balancer vip that may container a number of hosts that
+    # need to be looked up via the load_balancer plugin.
     if found_plugin and not onepass:
         newlist = expand_item(newlist)
     return newlist
@@ -172,8 +185,11 @@ def expand_item(range_list, onepass = False):
 def multikeysort(items, columns):
     from operator import itemgetter
 
-    comparers = [((itemgetter(col[1:].strip()), -1) if col.startswith('-') else (itemgetter(col.strip()), 1)) for col in
-                 columns]
+    comparers = [
+        (
+            (itemgetter(col[1:].strip()), -1) if col.startswith('-') else (itemgetter(col.strip()), 1)
+        ) for col in columns
+    ]
 
     def comparer(left, right):
         for fn, mult in comparers:
@@ -213,7 +229,9 @@ def compress(hostnames):
 
 
 def compress_domain(hostnames):
-    """ Compress a list of hosts in a domain into a more compact range representation """
+    """
+    Compress a list of hosts in a domain into a more compact representation
+    """
     hostnames.sort()
     prev_dict = { 'prefix': "", 'suffix': '', 'number': 0 }
     items = []
@@ -222,10 +240,14 @@ def compress_domain(hostnames):
     for host in hostnames:
         #print re.match(r"([^0-9]+)(\d+)(.+).?",sys.argv[1]).groups()
         try:
-            parsed_dict = re.match(r"(?P<prefix>[^0-9]+)(?P<number>\d+)(?P<suffix>.+).?", host).groupdict()
-            # To generate the range we need the entries sorted numerically but to ensure we don't
-            # loose any leading 0s we don't want to replace the number parameter that is a string
-            # with the leading 0s.
+            parsed_dict = re.match(
+                r"(?P<prefix>[^0-9]+)(?P<number>\d+)(?P<suffix>.+).?",
+                host
+            ).groupdict()
+            # To generate the range we need the entries sorted numerically
+            # but to ensure we don't loose any leading 0s we don't want to
+            # replace the number parameter that is a string with the leading
+            # 0s.
             parsed_dict['number_int'] = int(parsed_dict['number'])
             new_hosts.append(parsed_dict)
         except AttributeError:
@@ -251,9 +273,17 @@ def compress_domain(hostnames):
             if len(item) == 1 and 'host' in item[0].keys():
                 result.append(item[0]['host'])
             elif len(item) == 1:
-                result.append('%s%s%s' % (item[0]['prefix'], item[0]['number'], item[0]['suffix']))
+                result.append(
+                    '%s%s%s' % (
+                        item[0]['prefix'], item[0]['number'], item[0]['suffix']
+                    )
+                )
             else:
-                result.append('%s[%s-%s]%s' % (item[0]['prefix'], item[0]['number'], item[-1]['number'], item[0]['suffix']))
+                result.append(
+                    '%s[%s-%s]%s' % (
+                        item[0]['prefix'], item[0]['number'], item[-1]['number'], item[0]['suffix']
+                    )
+                )
     return result
 
 
@@ -288,4 +318,3 @@ def range_split(hosts):
 if __name__ == "__main__":
     # This has been moved to the hostlist script
     pass
-        

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 """ hostlists plugin to get hosts from a file """
 
-#noinspection PyStatementEffect
 """
  Copyright (c) 2012 Yahoo! Inc. All rights reserved.
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +38,10 @@ def block_to_list(block):
         val2_len=len(val2)
         #result+=range(int(val1),int(val2)+1)
         for value in range(int(val1),int(val2)+1):
-          result.append(str(value).zfill(val2_len))
+          if val1.startswith('0'):
+            result.append(str(value).zfill(val2_len))
+          else:
+            result.append(str(value))
         val=''
         val1=None
         in_range=False
@@ -48,7 +50,7 @@ def block_to_list(block):
         val1_len=len(val1)
         val=''
       if letter == ',':
-        if val1 is not None:
+        if val1 != None:
           result.append(val1.zfill(val1_len))
       else:
         in_range=True
