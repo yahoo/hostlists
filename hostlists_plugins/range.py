@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """ hostlists plugin to get hosts from a file """
 
-"""
+__license__ = """
  Copyright (c) 2012 Yahoo! Inc. All rights reserved.
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -19,9 +19,11 @@
 def name():
   return 'range'
 
+
 def expand(value):
   return expand_item(value)
-    
+
+
 def block_to_list(block):
   """ Convert a range block into a numeric list 
       input "1-3,17,19-20"
@@ -57,7 +59,8 @@ def block_to_list(block):
     else:
       val+=letter
   return result
-    
+
+
 def expand_item(item):
   result=[]
   in_block=False

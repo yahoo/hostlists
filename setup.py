@@ -1,4 +1,9 @@
 #!/usr/bin/python
+"""
+Setup configuration for hostlists
+"""
+import sys
+import os
 from distutils.core import setup
 #noinspection PyStatementEffect
 """
@@ -17,18 +22,29 @@ from distutils.core import setup
 """
 
 setup(
-    name = 'hostlists',
-    version = '0.5.5',
-    author = 'Dwight Hubbard',
-    author_email = 'dhubbard@yahoo-inc.com',
-    url = 'http://www.yahoo.com',
-    license = 'LICENSE.txt',
-    packages = ['hostlists'],
-    data_files = [('/usr/lib/hostlists/plugins',
-                   ['hostlists_plugins/file.py', 'hostlists_plugins/dns.py', 'hostlists_plugins/dnsip.py',
-                    'hostlists_plugins/range.py', 'hostlists_plugins/haproxy.py', 'hostlists_plugins/plugintype.py'])],
-    scripts = ['hostlists/hostlists'],
-    long_description = open('README.txt').read(),
-    description = 'A python library to obtain lists of hosts from various systems',
-    requires = ['django', 'dnspython'],
+    name='hostlists',
+    version='0.5.9',
+    author='Dwight Hubbard',
+    author_email='dhubbard@yahoo-inc.com',
+    url='https://github.com/yahoo/hostlists',
+    license='LICENSE.txt',
+    packages=['hostlists'],
+    data_files=[
+        (
+            os.path.join(sys.prefix, 'lib/hostlists/plugins'),
+            [
+                'hostlists_plugins/file.py',
+                'hostlists_plugins/dns.py',
+                'hostlists_plugins/dnsip.py',
+                'hostlists_plugins/range.py',
+                'hostlists_plugins/haproxy.py',
+                'hostlists_plugins/plugintype.py'
+            ]
+        )
+    ],
+    scripts=['hostlists/hostlists'],
+    long_description=open('README.txt').read(),
+    description='A python library to obtain lists of hosts from various '
+                'systems',
+    install_requires=['django', 'dnspython'],
 )

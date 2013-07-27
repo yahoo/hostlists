@@ -50,7 +50,10 @@ def _get_plugins():
     plugins = global_plugins
     pluginlist = []
     plugin_path = [
-        '~/.hostlists', '~/lib/hostlists', '/usr/lib/hostlists',
+        '~/.hostlists',
+        '~/lib/hostlists',
+        os.path.join(sys.prefix, 'lib/hostlists'),
+        '/usr/lib/hostlists',
         '/home/y/lib/hostlists'
     ] + sys.path
     for directory in plugin_path:
