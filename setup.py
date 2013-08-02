@@ -16,14 +16,14 @@ __license__ = """
  See the License for the specific language governing permissions and
  limitations under the License. See accompanying LICENSE file.
 """
-
-import sys
 import os
+import sys
 from distutils.core import setup
+
 
 setup(
     name='hostlists',
-    version='0.5.10',
+    version='0.5.16',
     author='Dwight Hubbard',
     author_email='dhubbard@yahoo-inc.com',
     url='https://github.com/yahoo/hostlists',
@@ -33,12 +33,12 @@ setup(
         (
             os.path.join(sys.prefix, 'lib/hostlists/plugins'),
             [
-                'hostlists_plugins/file.py',
-                'hostlists_plugins/dns.py',
-                'hostlists_plugins/dnsip.py',
-                'hostlists_plugins/range.py',
-                'hostlists_plugins/haproxy.py',
-                'hostlists_plugins/plugintype.py'
+                'hostlists/plugins/dns.py',
+                'hostlists/plugins/dnsip.py',
+                'hostlists/plugins/file.py',
+                'hostlists/plugins/haproxy.py',
+                'hostlists/plugins/range.py',
+                'hostlists/plugins/plugintype.py'
             ]
         )
     ],

@@ -35,7 +35,7 @@ import logging
 import re
 
 # Global plugin cache so we don't constantly reload the plugin modules
-global_plugins = { }
+global_plugins = {}
 
 # A list of operators we use for set options
 SET_OPERATORS = ['-']
@@ -52,6 +52,9 @@ def _get_plugins():
     plugin_path = [
         '~/.hostlists',
         '~/lib/hostlists',
+        os.path.join(sys.prefix, 'hostlists'),
+        os.path.join(sys.prefix, 'site-packages/hostlists'),
+        os.path.join(sys.prefix, 'dist-packages/hostlists'),
         os.path.join(sys.prefix, 'lib/hostlists'),
         '/usr/lib/hostlists',
         '/home/y/lib/hostlists'

@@ -1,0 +1,6 @@
+include hostlists/plugins/file.py
+include hostlists/plugins/haproxy.py
+include hostlists/plugins/dnsip.py
+include hostlists/plugins/range.py
+include hostlists/plugins/plugintype.py
+include hostlists/plugins/dns.py
