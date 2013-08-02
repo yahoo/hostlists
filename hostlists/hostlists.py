@@ -305,10 +305,10 @@ def range_split(hosts):
         if not in_brackets and c == ',':
             result_list.append(current)
             current = ""
-        elif not in_brackets and c == '-':
-            result_list.append(current)
-            result_list.append('-')
-            current = ""
+        #elif not in_brackets and c == '-':
+        #    result_list.append(current)
+        #    result_list.append('-')
+        #    current = ""
         elif not in_brackets and c in [','] and len(current) == 0:
             pass
         else:

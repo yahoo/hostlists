@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-""" 
+"""
 hostlists plugin to recursively query plugins based on type.
 
 This makes it possible to obtain lists of hosts by recursively
@@ -19,8 +19,7 @@ For example:
    * Return apache[1-2].ny.foo.com, apache[2-3].lax.foo.com,
      joesdektop.foo.com 
 """
-# noinspection PyStatementEffect
-"""
+__license__ = """
  Copyright (c) 2010-2013 Yahoo! Inc. All rights reserved.
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -29,7 +28,7 @@ For example:
  http://www.apache.org/licenses/LICENSE-2.0
 
  Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,   
+ distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  See the License for the specific language governing permissions and
  limitations under the License. See accompanying LICENSE file.
