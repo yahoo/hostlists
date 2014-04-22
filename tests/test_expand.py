@@ -58,7 +58,7 @@ class TestHostlistsExpand(unittest.TestCase):
             'localhost3', 'localhost4', 'localhost5', 'foobar'
         ]
 
-    class test_expand__string_input__multiple_host__range_gap(
+    class disabled_test_expand__string_input__multiple_host__range_gap(
         base_test_expand_string_input
     ):
         range_list = 'localhost[3-5,7], foobar'
