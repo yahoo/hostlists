@@ -323,10 +323,11 @@ def compress_domain(hostnames):
                     )
                 )
             else:
-                result.append(
-                    '%s[%s-%s]%s' % (
-                        item[0]['prefix'], item[0]['number'], item[-1]['number'], item[0]['suffix']
-                    )
+                common_number_prefix = os.path.commonprefix([item[0]['number'], item[-1]['number']])
+                 result.append(
+                     '%s[%s-%s]%s' % (
+                        item[0]['prefix'] + common_number_prefix , item[0]['number'][len(common_number_prefix):], item[-1]['number'][len(common_number_prefix):], item[0]['suffix']
+                     )
                 )
     return result
 
