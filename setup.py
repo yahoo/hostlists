@@ -15,21 +15,7 @@ Setup configuration for hostlists
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License. See accompanying LICENSE file.
-
-import setuptools
 from setuptools import setup
-import sys
 
 
-def setuptools_version_supported():
-    major, minor, patch = setuptools.__version__.split('.')
-    if int(major) > 34:
-        return True
-    return False
-
-
-if __name__ == '__main__':
-    if not setuptools_version_supported():
-        print('Setuptools version 34.0.0 or higher is needed to install this package')
-        sys.exit(1)
-    setup()
+setup()
